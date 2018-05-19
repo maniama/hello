@@ -1,3 +1,4 @@
+
 import pyTempNet as tn
 import igraph
 import numpy as np
@@ -17,7 +18,8 @@ from decimal import Decimal
 import plotly.graph_objs as go
 import random
 #import plotly.figure_factory as ff
-tools.set_credentials_file(username='maniama', api_key='qiLX2oVUhZgnWOTX6nOV')
+#tools.set_credentials_file(username='maniama', api_key='qiLX2oVUhZgnWOTX6nOV')
+import matplotlib.pyplot as pl
 
 t = tn.readFile('/home/marta/Downloads/example_network.tedges', sep=" ",fformat = "TEDGE", timestampformat="%s", maxlines=sys.maxsize)
 #t = tn.readFile('sg_infectious_contact_list/aaa.tedges', sep=" ",fformat = "TEDGE", timestampformat="%s", maxlines=sys.maxsize)
@@ -109,18 +111,35 @@ def time_table(time_tabel_val, time_table_nr):
 
 
 def wykresy(tab_time,Av_node,Nr_con_no):
-    print("rozklad stopni wierzcholkow")
+    print("logxlog")
     hist_data3 = Av_node
     # Create distplot with curve_type set to 'normal'
-    #fig3 = ff.create_distplot(hist_data3, show_hist=False)
+    # fig3 = ff.create_distplot(hist_data3, show_hist=False)
     data = [go.Histogram(x=hist_data3,
                          histnorm='probability')]
     # Add title
-    #fig3['layout'].update(title='roz_stopni')
+    # fig3['layout'].update(title='roz_stopni')
     # Plot!
     py.iplot(data, filename='roz_stopni')
 
 
+
+
+    print("rozklad stopni wierzcholkow")
+
+    # Create distplot with curve_type set to 'normal'
+    #fig3 = ff.create_distplot(hist_data3, show_hist=False)
+
+    # Add title
+    #fig3['layout'].update(title='roz_stopni')
+    # Plot!
+
+    fig = pl.hist(Av_node, len(Av_node) / 2, density=1, facecolor='blue', alpha=0.5)
+    pl.title('rozklad stopni wierzcholkow')
+    pl.xlabel("k")
+    pl.ylabel("P")
+    pl.savefig("rozklad_s_w.png")
+    pl.show()
 
     print("aktywnosc nodow w ukladzie")
    # for x in range(0,len(time_table_val)):
@@ -138,30 +157,40 @@ def wykresy(tab_time,Av_node,Nr_con_no):
   #  fig['layout'].update(height=600, width=600, title='i <3 subplots')
    # py.iplot(fig, filename='simple-subplot')
     print("histogram czasu wystepowania wezla w ukladzie")
-    hist_data =tab_time
+    #hist_data =tab_time
+    #print(tab_time)
     # Create distplot with curve_type set to 'normal'
     #fig = ff.create_distplot(hist_data, show_hist=False)
-    data2 = [go.Histogram(x=hist_data,
-                         histnorm='probability')]
+    #data2 = [go.Histogram(x=hist_data,
+                      #   histnorm='probability')]
     # Add title
     #fig['layout'].update(title='czas_w_ukladzie')
     # Plot!
-    py.iplot(data2, filename='czas_w_ukladzie')
 
-
+    #fig = pl.hist(data2)
+    fig = pl.hist(tab_time, len(tab_time) / 2, density=1, facecolor='blue', alpha=0.5)
+    pl.title('histogram czasu wystepowania wezla w ukladzie')
+    pl.xlabel("t")
+    pl.ylabel("P")
+    pl.savefig("hist_czas.png")
+    pl.show()
 
     print("histogram l. kontaktow")
-    hist_data2 = Nr_con_no
+
     # Create distplot with curve_type set to 'normal'
     #fig2 = ff.create_distplot(hist_data2, show_hist=False)
-    data3 = [go.Histogram(x=hist_data2,
-                         histnorm='probability')]
+    #data3 = [go.Histogram(x=hist_data2)]
     # Add title
     #fig2['layout'].update(title='l_kontaktow')
     # Plot!
-    py.iplot(data3, filename='l_kontaktow')
+    #py.iplot(data3, filename='l_kontaktow')
 
-
+    fig = pl.hist(Nr_con_no,len(Nr_con_no)/2,density=1,facecolor='blue', alpha=0.5)
+    pl.title('histogram l. kontaktow')
+    pl.xlabel("con")
+    pl.ylabel("P")
+    pl.savefig("hist_l_k.png")
+    pl.show()
 
 #najkrotsza droga
 def shortest_distance_2(a,time_table_val,C,A,D,B,list,list_list,Di):
@@ -383,7 +412,12 @@ def time_show(tab_time):
                     start=t.tedges[x][2]
                 else:
                     stop = t.tedges[x][2]
-        tab_time.append(stop-start)
+        if (stop-start)<0:
+
+            tab_time.append(float(-(stop-start)))
+        else:
+            tab_time.append(float(stop - start))
+
 
 
 def informacje():
@@ -484,3 +518,9 @@ time_show(tab_time)
 wykresy(tab_time,Av_node,Nr_con_no)
 informacje()
 plik.close()
+
+   
+
+
+        
+        
