@@ -1,4 +1,4 @@
-      import pyTempNet as tn
+import pyTempNet as tn
 import igraph
 import numpy as np
 import matplotlib.pyplot as plt
