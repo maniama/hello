@@ -394,6 +394,7 @@ def time_show(tab_time):
 
 
 def miary(bet_n, bet_e,C):
+    
     print(C)
     bb=0
     bb_n=0
@@ -417,7 +418,9 @@ def miary(bet_n, bet_e,C):
         b_n.append(bb1)
         bb_n+=(bb1/bb)
         bb1 = 0
-
+        
+        np.savetxt("bn.out", b_n, delimiter=",")
+        np.savetxt("be.out", b_e, delimiter=",")
 
     bet_n = (2.0 / ((len(t.nodes) - 1.0) * (len(t.nodes) - 2.0))) * bb_n
     print('% .4f' % bet_n)
