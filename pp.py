@@ -464,7 +464,27 @@ def informacje():
     plik.write(" ")
     plik.write(str(len(time_table_val)))
     plik.write('\n')
+    
+def attack():
+    print("Attack effectivness  - f")
+    print("Attack random - r")
+    print("Attack bettweness node - n")
+    print("Attack bettweness edge - e")
+    type = input('Choose type of attack')
+    file = input('Choose network file')
 
+    file_copy = file + "_" + type
+    copyfile(file, file_copy)
+    if type == 'f':
+        most_eff()
+    elif type == 'r':
+        random_attack()
+    elif type == 'n':
+        most_contact_attack_i(Di)
+    elif type == 'e':
+        most_contact_attack_e(Di)
+        
+def most eff():
 
 def random_attack():
     for i in range(0, len(t.tedges)):
