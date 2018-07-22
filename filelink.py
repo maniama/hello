@@ -6,22 +6,17 @@ fff = "sg_infectious_contact_list/"
 
 print("There are 69 files")
 number = input('How many files you want to join')
-#number=2
 
 def file_sort(file_name,file):
     with open(file_name) as f:
         for line in f:
 
             data = line.split("\t")
-
             t = (int(data[0]))
             node_one = (int(data[1]))
             node_two =(int(data[2]))
 
             dane = str(node_one)+" "+ str(node_two)+" "+ str(t)+" " + "\n"
-
-            # print("Linia zrobiona")
-
             file.write(dane)
     print("DONE"+"    "+file_name)
     f.close()
