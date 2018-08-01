@@ -46,14 +46,14 @@ def list_of_contacts():
 
 # utworzenie macierzy polaczen miedzy kontaktami; A i C
 # aktywnosc ukladu w czasie, w jednostce czasowej A_sum
-def adj2(time_table_val, time_table_nr, a, C, A, A_sum, Nodes_edges, list, node_contacts):
-    delete_nodes_list(list)
-    print("wowie"+str(node_contacts))
+def adj2(time_table_val, time_table_nr, a, C, A, A_sum, Nodes_edges, node_contacts):
+    #print("wowie"+str(node_contacts))
+
     n = 0
     found = 0
     A_test = np.zeros((len(t.nodes), len(t.nodes)))
     time_table(time_table_val, time_table_nr,node_contacts)
-
+    #print(node_contacts)
     for i in range(0, len(time_table_val)):
         A.append(A_test)
         A_sum.append(np.zeros(len(t.nodes)))
@@ -84,11 +84,12 @@ def adj2(time_table_val, time_table_nr, a, C, A, A_sum, Nodes_edges, list, node_
         C += a
         A[x] = a
         a = np.zeros((len(t.nodes), len(t.nodes)))
-
+        #print(A)
         n = n + 1
         name = 'A' + str(x)
-    print("sssssss"+str(list))
-    print("adj2 done")
+    #print("sssssss"+str(list))
+    #print("adj2 done")
+
 
 # plik = open('example', 'w')
 # tworzy tabelke wszystkich czasow podczas eksperymentu
@@ -104,7 +105,7 @@ def time_table(time_tabel_val, time_table_nr, node_contacts):
             time_table_nr.append(k)
 
         n = n + 1
-    print("table_table done")
+    #print("table_table done")
 
 
 def wykresy(tab_time, Av_node, Nr_con_no):
@@ -158,7 +159,7 @@ def wykresy(tab_time, Av_node, Nr_con_no):
 
 
 # najkrotsza droga
-def shortest_distance_2(list,Di):
+def shortest_distance_2():
 
     active_nodes_list = []
     nowe_active = []
@@ -190,14 +191,14 @@ def shortest_distance_2(list,Di):
                               # list,koniec_cale))
 
 
-    print("short distance done")
-    return D
+    #print("short distance done")
+
 
 
 
 def liczymy_polaczenia(active_nodes_list, contacts, time_con, time_cc, start, nowe_active, new_time_con, list,koniec_cale):
     for i in range(0, 3):
-        print("thanos")
+      #  print("thanos")
         yes = 0
         # print("elo")
         kk = 0
@@ -253,9 +254,10 @@ def liczymy_polaczenia(active_nodes_list, contacts, time_con, time_cc, start, no
         # print(active_nodes_list)
         #print(active_nodes_list)
         kk = sum(koniec_cale)
-        check_stop2(active_nodes_list, time_con, v, Di)
+        check_stop2(active_nodes_list, time_con, v, Di,D)
     return active_nodes_list
-def check_stop2(active_nodes_list, time_con, v, Di):
+
+def check_stop2(active_nodes_list, time_con, v, Di,D):
     #print(active_nodes_list)
     for x in range(0, len(active_nodes_list)):
         for xx in range(1, len(active_nodes_list[x])):
@@ -266,8 +268,9 @@ def check_stop2(active_nodes_list, time_con, v, Di):
             #print(active_nodes_list[x])
             # print(time_con[x])
             #print(time_diff)
+            Di[active_nodes_list[x][0]][active_nodes_list[x][xx]] += 1
             if time_diff < D[active_nodes_list[x][0]][active_nodes_list[x][xx]]:
-                Di[active_nodes_list[x][0]][active_nodes_list[x][xx]] += 1
+
             #print("wow"+str(active_nodes_list[x][0])+" "+str(active_nodes_list[x][xx]))
                 D[active_nodes_list[x][0]][active_nodes_list[x][xx]] =time_diff
 
@@ -326,13 +329,6 @@ def nowe_active_nodes(jjj, active_nodes_list, contacts, time_con, j, nowe_active
     del(col)
     del(colt)
 
-def list_inst(list, D):
-    for xx in range(0, len(list)):
-        D[list[xx][0]][list[xx][1]] = 1
-        D[list[xx][1]][list[xx][0]] = 1
-    print("list_inst done")
-
-
 # (funkcja do wyszukiwania wszystkich sasiadow od wyznaczonego miejsca)
 def find_con(contacts, next, j, time_cc, list,lista_co_bylo):
    # find_con(contacts, active_nodes_list[jj][len(active_nodes_list[jj]) - 1], time_con[jj][len(time_con[jj]) - 1],
@@ -390,7 +386,7 @@ def create_list(active_nodes_list, nodes, start, jj, time_con):
 
 
 # odczytuje najkrotszy dystans miedzy kontaktami i liczy efficiency
-def distance_read(D,eff_list):
+def distance_read(D):
     dist=0
     dist_node=0
     #np.savetxt("distance_" + nazwa + str(numero) + "_" + str(attack), D, delimiter=",")
@@ -405,12 +401,13 @@ def distance_read(D,eff_list):
                     dist += (1.0 / D[v][w])
                     dist_node += (1.0 / D[v][w])
         eff_list.append(dist_node)
+        #print(dist_node)
     print("dist" + " " + str(dist) + " " + "/" + " " + str(len(t.nodes)) + " " + "*" + " " + str(len(t.nodes) - 1))
     rel_eff = dist / (len(t.nodes) * (len(t.nodes) - 1))
 
-    print("distance_read done")
+    #print("distance_read done")
 
-    print("relative efficiency")
+    #print("relative efficiency")
     print('% .4f' % rel_eff)
     print(D)
 
@@ -439,7 +436,7 @@ def nr_con_node(C):
     nr_con_t = (nr_con_t / len(t.nodes))
     # print(nr_con_n)
     # print(nr_con_t)
-    print("nr_con_node done")
+    #print("nr_con_node done")
     # print(lol/len(t.nodes))
 
 
@@ -456,7 +453,7 @@ def av_nr_node(C, Av_node,node_contacts):
         Av_node.append(nr)
     av_n = av_n / len(t.nodes)
 
-    print("sredni stopien")
+    #print("sredni stopien")
     print(av_n)
     return av_n
 
@@ -480,7 +477,7 @@ def time_show(tab_time,node_contacts):
             tab_time.append(float(stop - start))
 
 
-def miary_n(C):
+def miary_n():
     bb = 0
     bb_n = 0
     bb1 = 0
@@ -502,7 +499,7 @@ def miary_n(C):
     print('% .4f' % bet_n)
     return bet_n
 
-def miary_e(C):
+def miary_e():
     bb = 0
     bb_e = 0
     b_e = np.zeros((len(t.nodes), len(t.nodes)))
@@ -518,131 +515,10 @@ def miary_e(C):
             b_e[v][w] = bb2
 
     bet_e = (2.0 / (len(t.nodes) * (len(t.nodes) - 1.0))) * bb_e
-    print('% .4f' % bet_e)
+    print('% .4f' % bet_e )
+    print(bb_e)
 
     return bet_e
-
-def liczenie(node_contacts):
-
-    adj2(time_table_val, time_table_nr, a, C, A, A_sum, Node_edges, list,node_contacts)
-
-    shortest_distance_2(list, Di)
-    list_inst(list, D)
-
-    nr_con_node(C)
-    av_nr_node(C,Av_node,node_contacts)
-    time_show(tab_time,node_contacts)
-
-    wykresy(tab_time, Av_node, Nr_con_no)
-
-def random_attack(node_contacts,r_num):
-    new_node_contacts=[]
-    for i in range(0, r_num):
-        ran_num=(random.randint(0, len(t.nodes)))
-        #print(str(ran_num)+"lololo")
-        for c in range(0, len(node_contacts)):
-
-            if (int(node_contacts[c][0]) ==ran_num or int(node_contacts[c][1]) == ran_num):
-                print("lol")
-            else:
-                new_node_contacts.append(node_contacts[c])
-        #print("new"+str(new_node_contacts))
-        #print("node" + str(node_contacts))
-    return new_node_contacts
-
-def most_eff(node_contacts,f_num,eff_list):
-
-    for i in range(0, f_num):
-        new_node_contacts = []
-        for ii in range(0,len(eff_list)):
-            max_eff=eff_list[0]
-            if eff_list[ii]>max_eff:
-                max_eff=eff_list[i]
-        eff_list[eff_list.index(max_eff)]=0
-        for c in range(0, len(node_contacts)):
-                if (int(node_contacts[c][0]) == max_eff or int(node_contacts[c][1] )== max_eff):
-                    print("lol")
-                else:
-                    new_node_contacts.append(node_contacts[c])
-    return new_node_contacts
-
-
-def most_contact_attack_e(Di,node_contacts,e_num):
-    e_list=[]
-    for v in range(0,len(t.nodes)):
-        e_node=0
-        for w in range(0,len(t.nodes)):
-            e_node+=Di[v][w]
-        e_list.append(e_node)
-    for i in range(0, e_num):
-        new_node_contacts = []
-        for ii in range(0, len(e_list)):
-            max_e = e_list[0]
-            if e_list[ii] > max_e:
-                max_e = e_list[i]
-        e_list[e_list.index(max_e)] = 0
-        for c in range(0, len(node_contacts)):
-            if (int(node_contacts[c][0]) == max_e or int(node_contacts[c][1]) == max_e):
-                print("lol")
-            else:
-                new_node_contacts.append(node_contacts[c])
-    return new_node_contacts
-
-
-def most_contact_attack_i(Di,node_contacts,n_num):
-    new_node_contacts = []
-    for i in range(0, n_num):
-        for ii in range(0, len(t.nodes)):
-            for jj in range(0,len(t.nodes)):
-                max_n = Di[0][0]
-                if Di[ii][jj] > max_n:
-                    max_n = Di[ii][jj]
-                    ii_n=ii
-                    jj_n=jj
-        D[ii_n][jj_n]=0
-        for c in range(0, len(node_contacts)):
-            if (int(node_contacts[c][0]) == max_n or int(node_contacts[c][1]) == max_n):
-                print("lol")
-            else:
-                new_node_contacts.append(node_contacts[c])
-    return new_node_contacts
-
-def attack(r, r_num, f, f_num, e, e_num, n, n_num,node_contacts):
-        if r==1:
-            print("attack random")
-            #print(node_contacts)
-
-            #print(random_attack(node_contacts,r_num))
-
-            liczenie(random_attack(node_contacts,r_num))
-
-            plik2.write('\n' + nazwa +"r"+ '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
-                        str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(len(time_table_val)) + '\t' + str(
-                av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D,eff_list)) + '\t' + str(
-                '% .4f' % miary_n(C)) + '\t' + str('% .4f' % miary_e(C)))
-        if f==1:
-            print("attack efficiency")
-            liczenie(most_eff(node_contacts,f_num,eff_list))
-            plik2.write('\n' + nazwa +"f"+ '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
-                        str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(len(time_table_val)) + '\t' + str(
-                av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D,eff_list)) + '\t' + str(
-                '% .4f' % miary_n(C)) + '\t' + str('% .4f' % miary_e(C)))
-        if e==1:
-            print("attack betweeness edge")
-            liczenie(most_contact_attack_e(Di,node_contacts,e_num))
-            plik2.write('\n' + nazwa +"e"+ '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
-                        str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(len(time_table_val)) + '\t' + str(
-                av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D,eff_list)) + '\t' + str(
-                '% .4f' % miary_n(C)) + '\t' + str('% .4f' % miary_e(C)))
-        if n==1:
-            print("attack betweeness node")
-            liczenie(most_contact_attack_i(Di,node_contacts,n_num))
-            plik2.write('\n' + nazwa +"n"+ '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
-                        str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(len(time_table_val)) + '\t' + str(
-                av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D,eff_list)) + '\t' + str(
-                '% .4f' % miary_n(C)) + '\t' + str('% .4f' % miary_e(C)))
-
-
 
 time_table_val = []
 time_table_nr = []
@@ -702,8 +578,6 @@ if mode == "ff":
 
             #display(Image(filename='example22.png'))
 
-
-
             Di = np.zeros((len(t.nodes), len(t.nodes)))
             B = np.zeros((len(t.nodes), len(t.nodes)))
             D = np.zeros((len(t.nodes), len(t.nodes)))
@@ -717,12 +591,232 @@ if mode == "ff":
 
             plik2 = open(nazwa + "_wyniki" + str(numero), 'a')
             node_contacts = list_of_contacts()
-            liczenie(node_contacts)
-            plik2.write('\n' + nazwa +"0"+ '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
+
+            adj2(time_table_val, time_table_nr, a, C, A, A_sum, Node_edges, node_contacts)
+            shortest_distance_2()
+            delete_nodes_list(eff_list)
+            for xx in range(0, len(list)):
+                D[list[xx][0]][list[xx][1]] = 1
+                D[list[xx][1]][list[xx][0]] = 1
+            #nr_con_node(C)
+            #av_nr_node(C, Av_node, node_contacts)
+            #time_show(tab_time, node_contacts)
+            plik2.write('\n' + nazwa + "r" + '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
                         str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(len(time_table_val)) + '\t' + str(
-                av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D,eff_list)) + '\t' + str(
-                '% .4f' % miary_n(C)) + '\t' + str('% .4f' % miary_e(C)))
-            #attack(r, r_num, f, f_num, e, e_num, n, n_num, node_contacts)
+                av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D)) + '\t' + str(
+                '% .4f' % miary_n()) + '\t' + str('% .4f' % miary_e()))
+            # wykresy(tab_time, Av_node, Nr_con_no)
+            print(Di)
+if r == 1:
+    print("attack random")
+    # print(node_contacts)
+    Di = np.zeros((len(t.nodes), len(t.nodes)))
+    B = np.zeros((len(t.nodes), len(t.nodes)))
+    D = np.zeros((len(t.nodes), len(t.nodes)))
+    C = np.zeros((len(t.nodes), len(t.nodes)))
+
+    a = np.zeros((len(t.nodes), len(t.nodes)))
+    new_node_contacts = []
+    for v in range(0, len(t.nodes)):
+        for w in range(0, len(t.nodes)):
+            D[v][w] = 300
+
+    # print(random_attack(node_contacts,r_num))
+
+
+    #print(r_num)
+    #for i in range(0, 0):
+    ran_num = (random.randint(1, len(t.nodes)))
+    #ran_num=1
+    #print(node_contacts)
+    print(str((ran_num-1))+" usuniety node")
+    # print(str(ran_num)+"lololo")
+    for c in range(0, len(node_contacts)):
+
+        if (int(node_contacts[c][0]) == ran_num or int(node_contacts[c][1]) == ran_num):
+            print("lol")
+        else:
+            new_node_contacts.append(node_contacts[c])
+            #print(node_contacts[c])
+            #print(new_node_contacts)
+            # print("new"+str(new_node_contacts))
+            # print("node" + str(node_contacts))
+    delete_nodes_list(list)
+    #print(list)
+    adj2(time_table_val, time_table_nr, a, C, A, A_sum, Node_edges, new_node_contacts)
+    shortest_distance_2()
+    delete_nodes_list(eff_list)
+    print(list)
+    for xx in range(0, len(list)):
+        D[list[xx][0]][list[xx][1]] = 1
+        D[list[xx][1]][list[xx][0]] = 1
+    nr_con_node(C)
+    av_nr_node(C, Av_node, new_node_contacts)
+    time_show(tab_time, new_node_contacts)
+    plik2.write('\n' + nazwa + "r" + '\t' + str(len(t.nodes)) + '\t' + str(len(new_node_contacts)) + '\t' +
+                str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(
+        len(time_table_val)) + '\t' + str(
+        av_nr_node(C, Av_node, new_node_contacts)) + '\t' + str(
+        '% .4f' % distance_read(D)) + '\t' + str(
+        '% .4f' % miary_n()) + '\t' + str('% .4f' % miary_e()))
+    # wykresy(tab_time, Av_node, Nr_con_no)
+    print(Di)
+if f == 1:
+    print("attack efficiency")
+    Di = np.zeros((len(t.nodes), len(t.nodes)))
+    B = np.zeros((len(t.nodes), len(t.nodes)))
+    D = np.zeros((len(t.nodes), len(t.nodes)))
+    C = np.zeros((len(t.nodes), len(t.nodes)))
+
+    a = np.zeros((len(t.nodes), len(t.nodes)))
+    new2_node_contacts=[]
+
+    for v in range(0, len(t.nodes)):
+        for w in range(0, len(t.nodes)):
+            D[v][w] = 300
+
+    #for i in range(0, f_num):
+    #print(eff_list)
+    #print(t.nodes)
+    for ii in range(0, len(eff_list)):
+        max_eff = eff_list[0]
+        if eff_list[ii] >= max_eff:
+            max_eff = ii
+            #print(ii)
+
+    for c in range(0, len(node_contacts)):
+        if (int(node_contacts[c][0]) == max_eff or int(node_contacts[c][1]) == max_eff):
+            print("lol")
+        else:
+            new2_node_contacts.append(node_contacts[c])
+    #print(new2_node_contacts)
+    #print(node_contacts)
+    #print(list)
+    delete_nodes_list(list)
+
+    #print(list)
+    adj2(time_table_val, time_table_nr, a, C, A, A_sum, Node_edges, new2_node_contacts)
+
+    shortest_distance_2()
+    delete_nodes_list(eff_list)
+    print(list)
+    for xx in range(0, len(list)):
+        D[list[xx][0]][list[xx][1]] = 1
+        D[list[xx][1]][list[xx][0]] = 1
+    nr_con_node(C)
+    av_nr_node(C, Av_node, new2_node_contacts)
+    time_show(tab_time, new2_node_contacts)
+    plik2.write('\n' + nazwa + "r" + '\t' + str(len(t.nodes)) + '\t' + str(len(new2_node_contacts)) + '\t' +
+                str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(
+        len(time_table_val)) + '\t' + str(
+        av_nr_node(C, Av_node, new2_node_contacts)) + '\t' + str(
+        '% .4f' % distance_read(D)) + '\t' + str(
+        '% .4f' % miary_n()) + '\t' + str('% .4f' % miary_e()))
+    # wykresy(tab_time, Av_node, Nr_con_no)
+    print(Di)
+if e == 1:
+    print("attack betweeness edge")
+    e_list = []
+    new3_node_contacts=[]
+    Di = np.zeros((len(t.nodes), len(t.nodes)))
+    B = np.zeros((len(t.nodes), len(t.nodes)))
+    D = np.zeros((len(t.nodes), len(t.nodes)))
+    C = np.zeros((len(t.nodes), len(t.nodes)))
+
+    a = np.zeros((len(t.nodes), len(t.nodes)))
+
+    for v in range(0, len(t.nodes)):
+        for w in range(0, len(t.nodes)):
+            D[v][w] = 300
+
+    for v in range(0, len(t.nodes)):
+        e_node = 0
+        for w in range(0, len(t.nodes)):
+            e_node += Di[v][w]
+        e_list.append(e_node)
+    for ii in range(0, len(e_list)):
+        max_e = e_list[0]
+        if e_list[ii] >= max_e:
+            max_e = ii
+    print(e_list)
+    print(max_e)
+    for c in range(0, len(node_contacts)):
+        if (int(node_contacts[c][0]) == max_e or int(node_contacts[c][1]) == max_e):
+            print("lol")
+        else:
+            new3_node_contacts.append(node_contacts[c])
+
+
+    delete_nodes_list(list)
+
+    adj2(time_table_val, time_table_nr, a, C, A, A_sum, Node_edges, new3_node_contacts)
+
+    shortest_distance_2()
+    delete_nodes_list(eff_list)
+    print(list)
+
+    for xx in range(0, len(list)):
+        D[list[xx][0]][list[xx][1]] = 1
+        D[list[xx][1]][list[xx][0]] = 1
+    nr_con_node(C)
+    av_nr_node(C, Av_node, new3_node_contacts)
+    time_show(tab_time, new3_node_contacts)
+    plik2.write('\n' + nazwa + "r" + '\t' + str(len(t.nodes)) + '\t' + str(len(new3_node_contacts)) + '\t' +
+                str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(
+        len(time_table_val)) + '\t' + str(
+        av_nr_node(C, Av_node, new3_node_contacts)) + '\t' + str(
+        '% .4f' % distance_read(D)) + '\t' + str(
+        '% .4f' % miary_n()) + '\t' + str('% .4f' % miary_e()))
+    # wykresy(tab_time, Av_node, Nr_con_no)
+    print(Di)
+if n == 1:
+    print("attack betweeness node")
+    Di = np.zeros((len(t.nodes), len(t.nodes)))
+    B = np.zeros((len(t.nodes), len(t.nodes)))
+    D = np.zeros((len(t.nodes), len(t.nodes)))
+    C = np.zeros((len(t.nodes), len(t.nodes)))
+
+    a = np.zeros((len(t.nodes), len(t.nodes)))
+    ii_n=0
+    jj_n=0
+    for v in range(0, len(t.nodes)):
+        for w in range(0, len(t.nodes)):
+            D[v][w] = 300
+
+    new4_node_contacts=[]
+    for i in range(0, n_num):
+        for ii in range(0, len(t.nodes)):
+            for jj in range(0, len(t.nodes)):
+                max_n = Di[0][0]
+                if Di[ii][jj] >= max_n:
+                    max_n = Di[ii][jj]
+                    ii_n = ii+1
+                    jj_n = jj+1
+
+        for c in range(0, len(node_contacts)):
+            if (int(node_contacts[c][0]) == ii_n or int(node_contacts[c][1]) == jj_n):
+                print("lol")
+            else:
+                new4_node_contacts.append(node_contacts[c])
+    delete_nodes_list(list)
+    adj2(time_table_val, time_table_nr, a, C, A, A_sum, Node_edges, new4_node_contacts)
+    shortest_distance_2()
+    delete_nodes_list(eff_list)
+    print(list)
+    for xx in range(0, len(list)):
+        D[list[xx][0]][list[xx][1]] = 1
+        D[list[xx][1]][list[xx][0]] = 1
+    nr_con_node(C)
+    av_nr_node(C, Av_node, new4_node_contacts)
+    time_show(tab_time, new4_node_contacts)
+    plik2.write('\n' + nazwa + "r" + '\t' + str(len(t.nodes)) + '\t' + str(len(new4_node_contacts)) + '\t' +
+                str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(
+        len(time_table_val)) + '\t' + str(
+        av_nr_node(C, Av_node, new4_node_contacts)) + '\t' + str(
+        '% .4f' % distance_read(D)) + '\t' + str(
+        '% .4f' % miary_n()) + '\t' + str('% .4f' % miary_e()))
+    # wykresy(tab_time, Av_node, Nr_con_no)
+    print(Di)
 
 elif mode == "c":
     y_n = raw_input("Attacks (y) or not (n)?")
@@ -758,13 +852,13 @@ elif mode == "c":
 
         plik2 = open(nazwa + "_wyniki" + str(numero), 'a')
         node_contacts=list_of_contacts()
-        liczenie(node_contacts)
+        #liczenie(node_contacts,A,C,D)
 
         plik2.write('\n' + nazwa + "0" + '\t' + str(len(t.nodes)) + '\t' + str(len(node_contacts)) + '\t' +
                     str(t.getObservationLength()) + '\t' + str(15) + '\t' + str(len(time_table_val)) + '\t' + str(
             av_nr_node(C, Av_node, node_contacts)) + '\t' + str('% .4f' % distance_read(D,eff_list)) + '\t' + str(
             '% .4f' % miary_n(C)) + '\t' + str('% .4f' % miary_e(C)))
-        attack(r, r_num, f, f_num, e, e_num, n, n_num,node_contacts)
+        #attack(r, r_num, f, f_num, e, e_num, n, n_num,node_contacts)
         print(D)
     elif y_n == 'n':
         #nazwa = input("Choose  file")
